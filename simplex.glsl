@@ -3,6 +3,12 @@ float rand(vec2 st) {
                          vec2(12.9898,78.233)))*
         43758.5453123);
 }
+vec2 rand2(vec2 st){
+  st=  vec2(dot(st,vec2(238.231,561.23)),dot(st,vec2(-253.123,486.239)) );
+  
+  return (-1.0 + 2.0*fract(sin(st)*43758.5453123))/sqrt(2.);
+  
+}
 const float pi = 3.14159265358979323846;
 float mi(float a){
 
@@ -21,16 +27,18 @@ void main(){
     vec2 cl = al+(f.x<f.y?vec2(0.,1.):vec2(1.,0.));
     vec2 sf = vec2(f.x-f.y*sqrt(3.)/4.,f.y*sqrt(3.)/2.);
 
-    float la = length(sf);
-    float lb = length(sf-vec2(1.-sqrt(3.)/4.,sqrt(3.)/2.));
-    float lc = length(sf-(f.x<f.y?vec2(-sqrt(3.)/4.,sqrt(3.)/2.):vec2(1.,0.)));
+    vec2 la = sf;
+    vec2 lb = sf-vec2(1.-sqrt(3.)/4.,sqrt(3.)/2.);
+    vec2 lc = sf-(f.x<f.y?vec2(-sqrt(3.)/4.,sqrt(3.)/2.):vec2(1.,0.));
     // vec3 a = vec3(1.,0.,0.);
     // vec3 b = vec3(0.,1.,0.);
     // vec3 c = vec3(0.,0.,1.);
-    vec3 a = vec3(rand(al));
-    vec3 b = vec3(rand(bl));
-    vec3 c = vec3(rand(cl));
-    vec3 v = a*mi(la)+b*mi(lb)+c*mi(lc);
+    vec2 a = rand2(al);
+    vec2 b = rand2(al);
+    vec2 c = rand2(al);
+    vec2 g = a*mi(length(la))+b*mi(length(lb))+c*mi(length(lc));
+    vec3 v = vec3(dot(g,(la)));
+    //vec3 v = a*mi(la)+b*mi(lb)+c*mi(lc);
     // if(mod(al.x,2.)==1.){
     //     v = a*lb;
     // }
@@ -39,7 +47,7 @@ void main(){
     // }
 
 
-    col = vec3(v);
+    col = vec3(v)*2.;
 
 
     gl_FragColor = vec4(col,1.);
