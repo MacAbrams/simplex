@@ -12,7 +12,8 @@ vec2 rand2(vec2 st){
 const float pi = 3.14159265358979323846;
 float mi(float a){
 
-    return cos(a/sqrt(3.)*pi*2.)/2.+0.5;
+    return a*a*(3.-2.*a);
+    //return cos(a/sqrt(3.)*pi*2.)/2.+0.5;
 }
 
 void main(){
@@ -34,10 +35,24 @@ void main(){
     // vec3 b = vec3(0.,1.,0.);
     // vec3 c = vec3(0.,0.,1.);
     vec2 a = rand2(al);
-    vec2 b = rand2(al);
-    vec2 c = rand2(al);
-    vec2 g = a*mi(length(la))+b*mi(length(lb))+c*mi(length(lc));
-    vec3 v = vec3(dot(g,(la)));
+    vec2 b = rand2(bl);
+    vec2 c = rand2(cl);
+    //vec2 g = a*mi(length(la))+b*mi(length(lb))+c*mi(length(lc));
+    vec3 w;
+    w.x = dot(la,la);
+    w.y = dot(lb,lb);
+    w.z = dot(lc,lc);
+
+    w *= w;
+    w *= w;
+    vec3 d;
+    
+    d.x = dot(a,la);
+    d.y = dot(b,lb);
+    d.z = dot(c,lc);
+    d *= w;
+
+    vec3 v = vec3(d.x+d.y+d.z);
     //vec3 v = a*mi(la)+b*mi(lb)+c*mi(lc);
     // if(mod(al.x,2.)==1.){
     //     v = a*lb;
@@ -46,6 +61,9 @@ void main(){
     //     v = a*lc;//+vec3(0.,1.,0.)*(sqrt(3.)/2.-lc);
     // }
 
+    //a = normalize(uv-vec2(5.));
+    //t= rand2(vec2(0.));
+    //v = vec3(dot(t,a)*mi(length(uv-vec2(5.)))+0.5);
 
     col = vec3(v)*2.;
 
